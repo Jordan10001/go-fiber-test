@@ -9,9 +9,11 @@ import (
 
 // Config holds all application configurations.
 type Config struct {
-	AppPort     string
-	MongoDBURI  string
-	MongoDBName string
+	AppPort         string
+	PostgreSQLURI   string
+	GoogleClientID  string
+	GoogleSecret    string
+	FrontendURL     string
 }
 
 // LoadConfig loads configuration from environment variables.
@@ -22,8 +24,10 @@ func LoadConfig() *Config {
 	}
 
 	return &Config{
-		AppPort:     os.Getenv("PORT"),
-		MongoDBURI:  os.Getenv("MONGODB_URI"),
-		MongoDBName: os.Getenv("MONGODB_NAME"),
+		AppPort:         os.Getenv("PORT"),
+		PostgreSQLURI:   os.Getenv("POSTGRESQL_URI"),
+		GoogleClientID:  os.Getenv("GOOGLE_CLIENT_ID"),
+		GoogleSecret:    os.Getenv("GOOGLE_CLIENT_SECRET"),
+		FrontendURL:     os.Getenv("FRONTEND_REDIRECT_URL"),
 	}
 }

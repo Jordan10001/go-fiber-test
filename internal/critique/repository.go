@@ -2,29 +2,34 @@ package critique
 
 import (
 	"context"
+	"fmt"
 
-	"go.mongodb.org/mongo-driver/mongo"
+	"github.com/jackc/pgx/v4"
 )
 
-// Repository defines the interface for data access.
+// Repository defines the interface for critique data access.
 type Repository interface {
 	CreateCritique(ctx context.Context, critique *Critique) error
 }
 
-// critiqueRepository implements the Repository interface.
-type critiqueRepository struct {
-	collection *mongo.Collection
+// pgRepository implements the Repository interface for PostgreSQL.
+type pgRepository struct {
+	conn *pgx.Conn
 }
 
-// NewCritiqueRepository creates a new instance of the repository.
-func NewCritiqueRepository(coll *mongo.Collection) Repository {
-	return &critiqueRepository{
-		collection: coll,
+// NewPostgresRepository creates a new instance of the PostgreSQL repository.
+func NewPostgresRepository(conn *pgx.Conn) Repository {
+	return &pgRepository{
+		conn: conn,
 	}
 }
 
 // CreateCritique inserts a new critique into the database.
-func (r *critiqueRepository) CreateCritique(ctx context.Context, critique *Critique) error {
-	_, err := r.collection.InsertOne(ctx, critique)
-	return err
+func (r *pgRepository) CreateCritique(ctx context.Context, critique *Critique) error {
+	query := `INSERT INTO critiques (title, content, created_at) VALUES ($1, $2, $3)`
+	_, err := r.conn.Exec(ctx, query, critique.Title, critique.Content, critique.CreatedAt)
+	if err != nil {
+		return fmt.Errorf("failed to insert critique: %v", err)
+	}
+	return nil
 }
