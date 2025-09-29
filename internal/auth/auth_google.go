@@ -2,7 +2,7 @@ package auth
 
 import (
 	"context"
-
+	"fmt"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 )
@@ -11,11 +11,11 @@ import (
 var GoogleConfig *oauth2.Config
 
 // InitGoogleOAuth menginisialisasi konfigurasi Google OAuth
-func InitGoogleOAuth(clientID, clientSecret string) {
+func InitGoogleOAuth(clientID, clientSecret, backendURL string) {
 	GoogleConfig = &oauth2.Config{
 		ClientID:     clientID,
 		ClientSecret: clientSecret,
-		RedirectURL:  "http://localhost:3000/auth/google/callback",
+		RedirectURL:  fmt.Sprintf("%s/auth/google/callback", backendURL),
 		Scopes: []string{
 			"https://www.googleapis.com/auth/userinfo.email",
 			"https://www.googleapis.com/auth/userinfo.profile",

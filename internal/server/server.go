@@ -36,7 +36,7 @@ func (s *Server) SetupRoutes() {
 	database.ConnectDB(s.cfg)
 
 	// Inisialisasi konfigurasi Google OAuth
-	auth.InitGoogleOAuth(s.cfg.GoogleClientID, s.cfg.GoogleSecret)
+	auth.InitGoogleOAuth(s.cfg.GoogleClientID, s.cfg.GoogleSecret, s.cfg.BackendURL)
 
 	// Dependency Injection untuk modul kritik
 	critiqueRepo := critique.NewPostgresRepository(database.DB)

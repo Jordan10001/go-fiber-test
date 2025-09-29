@@ -14,6 +14,7 @@ type Config struct {
 	GoogleClientID  string
 	GoogleSecret    string
 	FrontendURL     string
+	BackendURL      string // Tambahkan ini
 }
 
 // LoadConfig loads configuration from environment variables.
@@ -29,5 +30,6 @@ func LoadConfig() *Config {
 		GoogleClientID:  os.Getenv("GOOGLE_CLIENT_ID"),
 		GoogleSecret:    os.Getenv("GOOGLE_CLIENT_SECRET"),
 		FrontendURL:     os.Getenv("FRONTEND_REDIRECT_URL"),
+		BackendURL:      os.Getenv("BACKEND_BASE_URL"), // Tambahkan ini
 	}
 }
